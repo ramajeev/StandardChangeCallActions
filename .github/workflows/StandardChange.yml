@@ -27,12 +27,9 @@ jobs:
     steps:
       - name: Set default values if inputs are empty
         run: |
-          # Set default start and end dates to current and +1 day
           DEFAULT_START_DATE=$(date '+%Y-%m-%d %H:%M:%S')
           DEFAULT_END_DATE=$(date -d "$DEFAULT_START_DATE + 1 day" '+%Y-%m-%d %H:%M:%S')
-          DEFAULT_CHANGE_HASH=
 
-          # Use input values if provided, otherwise use defaults
           START_DATE="${{ inputs.start_date }}"
           END_DATE="${{ inputs.end_date }}"
           DESCRIPTION="${{ inputs.description }}"
@@ -40,10 +37,6 @@ jobs:
 
           if [ -z "$START_DATE" ]; then
             START_DATE="$DEFAULT_START_DATE"
-          fi
-
-          if [ -z "$CHANGE_HASH" ]; then
-            CHANGE_HASH="563504cc47410200e90d87e8dee490e"
           fi
 
           if [ -z "$END_DATE" ]; then
