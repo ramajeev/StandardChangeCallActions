@@ -6,7 +6,7 @@ on:
 
 jobs:
   trigger-service-now:
-    uses: ./.github/workflows/StandardChange.yml
+    uses: ./StandardChange.yml
     with:
       start_date: '2025-08-29 09:00:00'
       end_date: '2025-09-14 18:00:00'
