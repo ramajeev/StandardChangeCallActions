@@ -1,0 +1,13 @@
+# .github/workflows/sample-trigger.yml
+name: Trigger ServiceNow API Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  trigger-service-now:
+    uses: ./.github/workflows/service-now-api.yml
+    with:
+      start_date: '2025-08-29 09:00:00'
+      end_date: '2025-09-14 18:00:00'
+      description: 'Sample change request for testing'
