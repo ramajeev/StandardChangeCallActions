@@ -63,7 +63,7 @@ jobs:
           echo "Description: $DESCRIPTION"
           echo "Change Request Hash: $CHANGE_HASH"
 
-          RESPONSE=$(curl --silent --show-error --fail --request POST "https://dev312158.service-now.com/api/sn_chg_rest/v1/change/standard/$CHANGE_HASH" \
+          RESPONSE=$(curl --silent --show-error --fail --request POST "https://dev312158.service-now.com/api/sn_chg_rest/v1/change/standard/563504cc47410200e90d87e8dee490e2" \
             --header "Accept: application/json" \
             --header "Content-Type: application/json" \
             --data "{\"start_date\":\"$START_DATE\", \"end_date\":\"$END_DATE\", \"description\":\"$DESCRIPTION\"}" \
