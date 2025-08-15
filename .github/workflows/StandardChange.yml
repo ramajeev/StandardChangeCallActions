@@ -37,8 +37,8 @@ jobs:
           END_DATE="${{ inputs.end_date }}"
           DESCRIPTION="${{ inputs.description }}"
           CHANGE_HASH="${{ inputs.change_request_hash }}"
-          SN_USER_NAME="${{ secrets.SN_USER_NAME1 }}"
-          SN_PWD="${{ secrets.SN_PWD1 }}"
+          SN_USER_NAME="admin"
+          SN_PWD="EZyfbPC+!2m7"
 
           if [ -z "$START_DATE" ]; then
             START_DATE="$DEFAULT_START_DATE"
