@@ -8,6 +8,9 @@ jobs:
   #.github/workflows/.github/workflows/TestSecretsbyWFCall.yml
     uses: ramajeev/StandardChangeCallActions/.github/workflows/TestSecretsbyWFCall.yml@main
     with:
-      example_input: "your_value_here"
+      start_date: '2025-08-29 09:00:00'
+      end_date: '2025-09-14 18:00:00'
+      description: 'Sample change request for testing'
+      change_request_hash: '563504cc47410200e90d87e8dee490e2'
     
 
