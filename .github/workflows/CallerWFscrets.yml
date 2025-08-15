@@ -6,6 +6,8 @@ on:
 jobs:
   call-test-secrets:
   #.github/workflows/
-    uses: ramajeev/StandardChangeCallActions/.github/workflows/TestingSecretsWF.yml.yml@main
+    uses: ramajeev/StandardChangeCallActions/.github/workflows/TestingSecretsWF.yml@main
+    with:
+      example_input: "your_value_here"
     
 
