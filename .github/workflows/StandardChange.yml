@@ -60,6 +60,8 @@ jobs:
           echo "END_DATE=$END_DATE" >> $GITHUB_ENV
           echo "DESCRIPTION=$DESCRIPTION" >> $GITHUB_ENV
           echo "CHANGE_HASH=$CHANGE_HASH" >> $GITHUB_ENV
+          echo "SN_USER_NAME=$SN_USER_NAME" >> $GITHUB_ENV
+          echo "SN_PWD=$SN_PWD" >> $GITHUB_ENV
 
       - name: Call ServiceNow API
         
