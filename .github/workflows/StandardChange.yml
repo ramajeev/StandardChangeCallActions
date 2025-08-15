@@ -65,12 +65,14 @@ jobs:
           SN_PWD: ${{ secrets.SN_PWD1 }}
         run: |
           echo "Calling ServiceNow API with:"
+          echo "Username length: ${#SN_USER_NAME}"
+          echo "Password length: ${#SN_PWD}"
           echo "Start Date: $START_DATE"
           echo "End Date: $END_DATE"
           echo "Description: $DESCRIPTION"
           echo "Change Request Hash: $CHANGE_HASH"
 
-          RESPONSE=$(curl --silent --show-error --fail --request POST "https://dev312158.service-now.com/api/sn_chg_rest/v1/change/standard/$CHANGE_HASH" \
+          RESPONSE=$(curl --silent --show-error --fail --verbose --request POST "https://dev312158.service-now.com/api/sn_chg_rest/v1/change/standard/$CHANGE_HASH" \
             --header "Accept: application/json" \
             --header "Content-Type: application/json" \
             --data "{\"start_date\":\"$START_DATE\", \"end_date\":\"$END_DATE\", \"description\":\"$DESCRIPTION\"}" \
@@ -78,5 +80,4 @@ jobs:
 
           echo "API Response:"
           echo "$RESPONSE"
-          echo "$SN_USER_NAME"
-          echo "$SN_PWD"
+          
