@@ -7,9 +7,6 @@ on:
 jobs:
   trigger-service-now:
     uses: ramajeev/StandardChangeCallActions/.github/workflows/StandardChange.yml@main
-    secrets:
-          SN_USER_NAME1: ${{ secrets.SN_USER_NAME1 }}
-          SN_PWD1: ${{ secrets.SN_PWD1 }}
     with:
       start_date: '2025-08-29 09:00:00'
       end_date: '2025-09-14 18:00:00'
