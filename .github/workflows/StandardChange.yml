@@ -19,11 +19,6 @@ on:
         description: 'ServiceNow change request hash value'
         required: true
         type: string
-    secrets:
-      SN_USER_NAME1:
-        required: true
-      SN_PWD1:
-        required: true
 
 jobs:
   call-api:
