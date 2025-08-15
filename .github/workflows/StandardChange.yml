@@ -61,8 +61,8 @@ jobs:
 
       - name: Call ServiceNow API
         env:
-          SN_USER_NAME: ${{ secrets.SN_USER_NAME }}
-          SN_PWD: ${{ secrets.SN_PWD }}
+          SN_USER_NAME: ${{ secrets.SN_USER_NAME1 }}
+          SN_PWD: ${{ secrets.SN_PWD1 }}
         run: |
           echo "Calling ServiceNow API with:"
           echo "Start Date: $START_DATE"
