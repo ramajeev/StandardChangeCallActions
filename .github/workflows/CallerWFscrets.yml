@@ -5,10 +5,7 @@ on:
 
 jobs:
   call-test-secrets:
-    uses: ramajeev/StandardChangeCallActions/.github/workflows/TestSecretsbyWFCall.yml@main
-    secrets:
-      SN_USER_NAME1: ${{ secrets.SN_USER_NAME1 }}
-      SN_PWD1: ${{ secrets.SN_PWD1 }}
-    with:
-      example_input: "your_value_here"
+  #.github/workflows/
+    uses: ramajeev/StandardChangeCallActions/.github/workflows/TestingSecretsWF.yml.yml@main
+    
 
