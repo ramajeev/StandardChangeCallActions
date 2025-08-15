@@ -10,10 +10,4 @@ jobs:
       - name: Call Reusable Test Secrets Workflow
         # This is the line that calls the reusable workflow
         uses: ramajeev/StandardChangeCallActions/.github/workflows/TestSecretsbyWFCall.yml@main
-        with:
-          # You can pass inputs here if your reusable workflow had any
-          # For example: my_input: 'some-value'
-          pass: 
-        secrets:
-          SN_USER_NAME1: ${{ secrets.SN_USER_NAME1 }}
-          SN_PWD1: ${{ secrets.SN_PWD1 }}
+       
