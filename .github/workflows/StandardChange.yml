@@ -27,25 +27,21 @@ jobs:
     steps:
       - name: Set default values if inputs are empty
         run: |
-          # Set default start and end dates to current and +1 day
           DEFAULT_START_DATE=$(date '+%Y-%m-%d %H:%M:%S')
           DEFAULT_END_DATE=$(date -d "$DEFAULT_START_DATE + 1 day" '+%Y-%m-%d %H:%M:%S')
           DEFAULT_CHANGE_HASH="563504cc47410200e90d87e8dee490e2"
 
-          # Use input values if provided, otherwise use defaults
           START_DATE="${{ inputs.start_date }}"
           END_DATE="${{ inputs.end_date }}"
           DESCRIPTION="${{ inputs.description }}"
           CHANGE_HASH="${{ inputs.change_request_hash }}"
-          SN_USER_NAME="${{ secrets.SN_USER_NAME1 }}"
-          SN_PWD="${{ secrets.SN_PWD1 }}"
 
           if [ -z "$START_DATE" ]; then
             START_DATE="$DEFAULT_START_DATE"
           fi
 
           if [ -z "$CHANGE_HASH" ]; then
-            CHANGE_HASH="563504cc47410200e90d87e8dee490e"
+            CHANGE_HASH="$DEFAULT_CHANGE_HASH"
           fi
 
           if [ -z "$END_DATE" ]; then
@@ -60,25 +56,23 @@ jobs:
           echo "END_DATE=$END_DATE" >> $GITHUB_ENV
           echo "DESCRIPTION=$DESCRIPTION" >> $GITHUB_ENV
           echo "CHANGE_HASH=$CHANGE_HASH" >> $GITHUB_ENV
-          echo "SN_USER_NAME=$SN_USER_NAME" >> $GITHUB_ENV
-          echo "SN_PWD=$SN_PWD" >> $GITHUB_ENV
 
       - name: Call ServiceNow API
-        
+        env:
+          SN_USER_NAME: ${{ secrets.SN_USER_NAME1 }}
+          SN_PWD: ${{ secrets.SN_PWD1 }}
         run: |
           echo "Calling ServiceNow API with:"
-          echo "Username length: ${#SN_USER_NAME}"
-          echo "Password length: ${#SN_PWD}"
           echo "Start Date: $START_DATE"
           echo "End Date: $END_DATE"
           echo "Description: $DESCRIPTION"
           echo "Change Request Hash: $CHANGE_HASH"
 
-          RESPONSE=$(curl --silent --show-error --fail --verbose --request POST "https://dev312158.service-now.com/api/sn_chg_rest/v1/change/standard/$CHANGE_HASH" \
+          RESPONSE=$(curl --silent --show-error --fail --request POST "https://dev312158.service-now.com/api/sn_chg_rest/v1/change/standard/$CHANGE_HASH" \
             --header "Accept: application/json" \
             --header "Content-Type: application/json" \
             --data "{\"start_date\":\"$START_DATE\", \"end_date\":\"$END_DATE\", \"description\":\"$DESCRIPTION\"}" \
-            --user "${{ secrets.SN_USER_NAME1 }}:${{ secrets.SN_PWD1 }}"
+            --user "$SN_USER_NAME:$SN_PWD")
+
           echo "API Response:"
           echo "$RESPONSE"
-          
