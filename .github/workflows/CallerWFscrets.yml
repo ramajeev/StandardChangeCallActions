@@ -12,5 +12,9 @@ jobs:
       end_date: '2025-09-14 18:00:00'
       description: 'Sample change request for testing'
       change_request_hash: '563504cc47410200e90d87e8dee490e2'
+    secrets:
+      SN_USER_NAME1: ${{ secrets.SN_USER_NAME1 }}
+      SN_PWD1: ${{ secrets.SN_PWD1 }}
+
     
 
