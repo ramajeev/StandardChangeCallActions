@@ -37,6 +37,8 @@ jobs:
           END_DATE="${{ inputs.end_date }}"
           DESCRIPTION="${{ inputs.description }}"
           CHANGE_HASH="${{ inputs.change_request_hash }}"
+          SN_USER_NAME="${{ secrets.SN_USER_NAME1 }}"
+          SN_PWD="${{ secrets.SN_PWD1 }}"
 
           if [ -z "$START_DATE" ]; then
             START_DATE="$DEFAULT_START_DATE"
@@ -60,9 +62,7 @@ jobs:
           echo "CHANGE_HASH=$CHANGE_HASH" >> $GITHUB_ENV
 
       - name: Call ServiceNow API
-        env:
-          SN_USER_NAME: ${{ secrets.SN_USER_NAME1 }}
-          SN_PWD: ${{ secrets.SN_PWD1 }}
+        
         run: |
           echo "Calling ServiceNow API with:"
           echo "Username length: ${#SN_USER_NAME}"
