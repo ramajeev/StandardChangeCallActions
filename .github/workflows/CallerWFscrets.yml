@@ -5,9 +5,7 @@ on:
 
 jobs:
   call-test-secrets:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Call Reusable Test Secrets Workflow
-        # This is the line that calls the reusable workflow
-        uses: ramajeev/StandardChangeCallActions/.github/workflows/TestSecretsbyWFCall.yml@main
-       
+    uses: ramajeev/StandardChangeCallActions/.github/workflows/TestSecretsbyWFCall.yml@main
+    secrets:
+      SN_USER_NAME1: ${{ secrets.SN_USER_NAME1 }}
+      SN_PWD1: ${{ secrets.SN_PWD1 }}
