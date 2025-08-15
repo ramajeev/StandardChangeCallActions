@@ -1,0 +1,14 @@
+# .github/workflows/callChange.yml
+name: Trigger ServiceNow API Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  trigger-service-now:
+    uses: ramajeev/StandardChangeCallActions/.github/workflows/StandardChange.yml@main
+    with:
+      start_date: '2025-08-29 09:00:00'
+      end_date: '2025-09-14 18:00:00'
+      description: 'Sample change request for testing'
+      change_request_hash: '563504cc47410200e90d87e8dee490e2'
