@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Call Reusable Test Secrets Workflow
         # This is the line that calls the reusable workflow
-        uses: ./.github/workflows/testSecretsbycall.yml
+        uses: ./.github/workflows/TestSecretsbyWFCall.yml
         with:
           # You can pass inputs here if your reusable workflow had any
           # For example: my_input: 'some-value'
