@@ -78,8 +78,7 @@ jobs:
             --header "Accept: application/json" \
             --header "Content-Type: application/json" \
             --data "{\"start_date\":\"$START_DATE\", \"end_date\":\"$END_DATE\", \"description\":\"$DESCRIPTION\"}" \
-            --user "$SN_USER_NAME:$SN_PWD")
-
+            --user "${{ secrets.SN_USER_NAME1 }}:${{ secrets.SN_PWD1 }}"
           echo "API Response:"
           echo "$RESPONSE"
           
