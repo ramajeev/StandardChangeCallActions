@@ -9,3 +9,6 @@ jobs:
     secrets:
       SN_USER_NAME1: ${{ secrets.SN_USER_NAME1 }}
       SN_PWD1: ${{ secrets.SN_PWD1 }}
+    with:
+      example_input: "your_value_here"
+
