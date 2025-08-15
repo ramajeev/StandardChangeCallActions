@@ -1,3 +1,4 @@
+# .github/workflows/StandardChange.yml
 name: Call ServiceNow API (StandardChange)
 
 on:
@@ -19,6 +20,11 @@ on:
         description: 'ServiceNow change request hash value'
         required: true
         type: string
+    secrets:
+      SN_USER_NAME1:
+        required: true
+      SN_PWD1:
+        required: true
 
 jobs:
   call-api:
@@ -26,36 +32,37 @@ jobs:
 
     steps:
       - name: Set default values if inputs are empty
+        env:
+          START_DATE: ${{ inputs.start_date }}
+          END_DATE: ${{ inputs.end_date }}
+          DESCRIPTION: ${{ inputs.description }}
+          CHANGE_HASH: ${{ inputs.change_request_hash }}
         run: |
-          DEFAULT_START_DATE=$(date '+%Y-%m-%d %H:%M:%S')
-          DEFAULT_END_DATE=$(date -d "$DEFAULT_START_DATE + 1 day" '+%Y-%m-%d %H:%M:%S')
-          DEFAULT_CHANGE_HASH="563504cc47410200e90d87e8dee490e2"
+          # Use a variable to hold the final value
+          FINAL_START_DATE="${{ inputs.start_date }}"
+          FINAL_END_DATE="${{ inputs.end_date }}"
+          FINAL_DESCRIPTION="${{ inputs.description }}"
+          FINAL_CHANGE_HASH="${{ inputs.change_request_hash }}"
 
-          START_DATE="${{ inputs.start_date }}"
-          END_DATE="${{ inputs.end_date }}"
-          DESCRIPTION="${{ inputs.description }}"
-          CHANGE_HASH="${{ inputs.change_request_hash }}"
-
-          if [ -z "$START_DATE" ]; then
-            START_DATE="$DEFAULT_START_DATE"
+          # Set default values if the input is not provided
+          if [ -z "$FINAL_START_DATE" ]; then
+            FINAL_START_DATE=$(date '+%Y-%m-%d %H:%M:%S')
           fi
 
-          if [ -z "$CHANGE_HASH" ]; then
-            CHANGE_HASH="$DEFAULT_CHANGE_HASH"
+          if [ -z "$FINAL_END_DATE" ]; then
+            FINAL_END_DATE=$(date -d "$FINAL_START_DATE + 1 day" '+%Y-%m-%d %H:%M:%S')
           fi
 
-          if [ -z "$END_DATE" ]; then
-            END_DATE="$DEFAULT_END_DATE"
+          if [ -z "$FINAL_DESCRIPTION" ]; then
+            FINAL_DESCRIPTION="test_description"
           fi
+          
+          # The change_request_hash is required, so a default isn't necessary here.
 
-          if [ -z "$DESCRIPTION" ]; then
-            DESCRIPTION="test_description"
-          fi
-
-          echo "START_DATE=$START_DATE" >> $GITHUB_ENV
-          echo "END_DATE=$END_DATE" >> $GITHUB_ENV
-          echo "DESCRIPTION=$DESCRIPTION" >> $GITHUB_ENV
-          echo "CHANGE_HASH=$CHANGE_HASH" >> $GITHUB_ENV
+          echo "FINAL_START_DATE=$FINAL_START_DATE" >> $GITHUB_ENV
+          echo "FINAL_END_DATE=$FINAL_END_DATE" >> $GITHUB_ENV
+          echo "FINAL_DESCRIPTION=$FINAL_DESCRIPTION" >> $GITHUB_ENV
+          echo "FINAL_CHANGE_HASH=$FINAL_CHANGE_HASH" >> $GITHUB_ENV
 
       - name: Call ServiceNow API
         env:
@@ -63,16 +70,22 @@ jobs:
           SN_PWD: ${{ secrets.SN_PWD1 }}
         run: |
           echo "Calling ServiceNow API with:"
-          echo "Start Date: $START_DATE"
-          echo "End Date: $END_DATE"
-          echo "Description: $DESCRIPTION"
-          echo "Change Request Hash: $CHANGE_HASH"
+          echo "Start Date: $FINAL_START_DATE"
+          echo "End Date: $FINAL_END_DATE"
+          echo "Description: $FINAL_DESCRIPTION"
+          echo "Change Request Hash: $FINAL_CHANGE_HASH"
+          
+          # Check for empty variables before running curl
+          if [ -z "$FINAL_START_DATE" ] || [ -z "$FINAL_END_DATE" ] || [ -z "$FINAL_DESCRIPTION" ] || [ -z "$FINAL_CHANGE_HASH" ]; then
+            echo "Error: Required environment variables are not set."
+            exit 1
+          fi
 
-          RESPONSE=$(curl --silent --show-error --fail --request POST "https://dev312158.service-now.com/api/sn_chg_rest/v1/change/standard/$CHANGE_HASH" \
+          RESPONSE=$(curl --silent --show-error --fail --request POST "https://dev312158.service-now.com/api/sn_chg_rest/v1/change/standard/$FINAL_CHANGE_HASH" \
             --header "Accept: application/json" \
             --header "Content-Type: application/json" \
-            --data "{\"start_date\":\"$START_DATE\", \"end_date\":\"$END_DATE\", \"description\":\"$DESCRIPTION\"}" \
-            --user "$SN_USER_NAME:$SN_PWD")
-
+            --data "{\"start_date\":\"$FINAL_START_DATE\", \"end_date\":\"$FINAL_END_DATE\", \"description\":\"$FINAL_DESCRIPTION\"}" \
+            --user "${{ secrets.SN_USER_NAME1 }}:${{ secrets.SN_PWD1 }}")
+            
           echo "API Response:"
           echo "$RESPONSE"
