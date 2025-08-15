@@ -32,19 +32,12 @@ jobs:
 
     steps:
       - name: Set default values if inputs are empty
-        env:
-          START_DATE: ${{ inputs.start_date }}
-          END_DATE: ${{ inputs.end_date }}
-          DESCRIPTION: ${{ inputs.description }}
-          CHANGE_HASH: ${{ inputs.change_request_hash }}
         run: |
-          # Use a variable to hold the final value
           FINAL_START_DATE="${{ inputs.start_date }}"
           FINAL_END_DATE="${{ inputs.end_date }}"
           FINAL_DESCRIPTION="${{ inputs.description }}"
           FINAL_CHANGE_HASH="${{ inputs.change_request_hash }}"
 
-          # Set default values if the input is not provided
           if [ -z "$FINAL_START_DATE" ]; then
             FINAL_START_DATE=$(date '+%Y-%m-%d %H:%M:%S')
           fi
@@ -57,17 +50,12 @@ jobs:
             FINAL_DESCRIPTION="test_description"
           fi
           
-          # The change_request_hash is required, so a default isn't necessary here.
-
           echo "FINAL_START_DATE=$FINAL_START_DATE" >> $GITHUB_ENV
           echo "FINAL_END_DATE=$FINAL_END_DATE" >> $GITHUB_ENV
           echo "FINAL_DESCRIPTION=$FINAL_DESCRIPTION" >> $GITHUB_ENV
           echo "FINAL_CHANGE_HASH=$FINAL_CHANGE_HASH" >> $GITHUB_ENV
 
       - name: Call ServiceNow API
-        env:
-          SN_USER_NAME: ${{ secrets.SN_USER_NAME1 }}
-          SN_PWD: ${{ secrets.SN_PWD1 }}
         run: |
           echo "Calling ServiceNow API with:"
           echo "Start Date: $FINAL_START_DATE"
@@ -75,7 +63,6 @@ jobs:
           echo "Description: $FINAL_DESCRIPTION"
           echo "Change Request Hash: $FINAL_CHANGE_HASH"
           
-          # Check for empty variables before running curl
           if [ -z "$FINAL_START_DATE" ] || [ -z "$FINAL_END_DATE" ] || [ -z "$FINAL_DESCRIPTION" ] || [ -z "$FINAL_CHANGE_HASH" ]; then
             echo "Error: Required environment variables are not set."
             exit 1
