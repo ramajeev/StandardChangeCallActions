@@ -1,0 +1,19 @@
+name: Caller Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  call-test-secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Reusable Test Secrets Workflow
+        # This is the line that calls the reusable workflow
+        uses: ./.github/workflows/TestSecretsByCall.yml
+        with:
+          # You can pass inputs here if your reusable workflow had any
+          # For example: my_input: 'some-value'
+          pass: 
+        secrets:
+          SN_USER_NAME1: ${{ secrets.SN_USER_NAME1 }}
+          SN_PWD1: ${{ secrets.SN_PWD1 }}
