@@ -71,7 +71,7 @@ jobs:
           RESPONSE=$(curl --silent --show-error --fail --request POST "https://dev312158.service-now.com/api/sn_chg_rest/v1/change/standard/$FINAL_CHANGE_HASH" \
             --header "Accept: application/json" \
             --header "Content-Type: application/json" \
-            --data "{\"start_date\":\"$FINAL_START_DATE\", \"end_date\":\"$FINAL_END_DATE\", \"short_description\":\"$FINAL_DESCRIPTION\"}" \
+            --data "{\"start_date\":\"$FINAL_START_DATE\", \"end_date\":\"$FINAL_END_DATE\", \"description\":\"$FINAL_DESCRIPTION\"}" \
             --user "${{ secrets.SN_USER_NAME1 }}:${{ secrets.SN_PWD1 }}")
             
           echo "API Response:"
