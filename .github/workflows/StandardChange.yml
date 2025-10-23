@@ -68,7 +68,7 @@ jobs:
             exit 1
           fi
 
-          RESPONSE=$(curl --silent --show-error --fail --request POST "https://dev312158.service-now.com/api/sn_chg_rest/v1/change/standard/$FINAL_CHANGE_HASH" \
+          RESPONSE=$(curl --silent --show-error --fail --request POST "https://dev344299.service-now.com/api/sn_chg_rest/v1/change/standard/$FINAL_CHANGE_HASH" \
             --header "Accept: application/json" \
             --header "Content-Type: application/json" \
             --data "{\"start_date\":\"$FINAL_START_DATE\", \"end_date\":\"$FINAL_END_DATE\", \"description\":\"$FINAL_DESCRIPTION\"}" \
