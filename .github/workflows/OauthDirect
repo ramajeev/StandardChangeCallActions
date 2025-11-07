@@ -1,8 +1,6 @@
 name: Create ServiceNow Incident with OAuth
-
 on:
   workflow_dispatch:
-
 jobs:
   create-incident:
     runs-on: ubuntu-latest
