@@ -1,0 +1,31 @@
+name: Create ServiceNow Incident with OAuth
+
+on:
+  workflow_dispatch:
+jobs:
+  create-incident:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get OAuth Token from ServiceNow
+        run: |
+          TOKEN=$(curl --request POST \
+            --url "${{ secrets.SERVICENOW_INSTANCE }}/oauth_token.do" \
+            --header "Content-Type: application/x-www-form-urlencoded" \
+            --data "grant_type=client_credentials" \
+            --data "client_id=${{ secrets.SERVICENOW_CLIENT_ID }}" \
+            --data "client_secret=${{ secrets.SERVICENOW_CLIENT_SECRET }}" \
+            | jq -r '.access_token')
+          echo "TOKEN=$TOKEN" >> $GITHUB_ENV
+
+      - name: Create Incident in ServiceNow
+        run: |
+          curl --request POST \
+            --url "${{ secrets.SERVICENOW_INSTANCE }}/api/now/table/incident" \
+            --header "Authorization: Bearer $TOKEN" \
+            --header "Content-Type: application/json" \
+            --data '{
+              "short_description": "Incident created via GitHub Actions",
+              "description": "Using OAuth client credentials",
+              "urgency": "2",
+              "impact": "2"
+            }'
